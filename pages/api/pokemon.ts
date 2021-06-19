@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   let resp = {};
-  if (req.headers.authorization) {
+  if (req.headers.authorization && req.headers.authorization.length === 36) {
     const res = await fetch('https://pokeapi.co/api/v2/')
     const pokemon = await res.json()
     resp = { code: 'SUCCESS', data: pokemon }
