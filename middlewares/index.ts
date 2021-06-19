@@ -69,7 +69,7 @@ export const b2bCookieConsumer: Middleware = async function ([context, locals]) 
   return [context, locals]
 }
 
-export async function execMiddlewareChains(context: NextPageContext, registeredMiddlewares: Middleware[]): Promise<NextPageContext> {
+export async function execMiddlewareChains(context: NextPageContext, registeredMiddlewares: Middleware[]): Promise<MiddlewareChainableTuple> {
   let overridableContext = context
   let overrideableLocals = {}
   for await (const middleware of registeredMiddlewares) {
@@ -78,5 +78,5 @@ export async function execMiddlewareChains(context: NextPageContext, registeredM
     overrideableLocals = newLocals
   }
 
-  return overridableContext
+  return [overridableContext, overrideableLocals]
 }

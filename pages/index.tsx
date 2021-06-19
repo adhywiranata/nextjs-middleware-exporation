@@ -47,13 +47,18 @@ export default function Home({ pokemon }: { pokemon: any }) {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  await execMiddlewareChains(context, [
+  const [, locals] = await execMiddlewareChains(context, [
     phpSession,
     b2bCookieSetter,
     b2bCookieConsumer
   ])
 
-  const res = await fetch('https://nextjs-middleware-exporation.vercel.app/api/pokemon')
+  let headers = {}
+  if (locals.PHPSESSID) {
+    headers = { 'Authorization': String(locals.PHPSESSID) }
+  }
+
+  const res = await fetch('https://nextjs-middleware-exporation.vercel.app/api/pokemon', { headers })
   const pokemon = await res.json()
 
   return { props: { pokemon } }
