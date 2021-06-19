@@ -53,7 +53,7 @@ export async function getServerSideProps(context: NextPageContext) {
     b2bCookieConsumer
   ])
 
-  const res = await fetch('https://pokeapi.co/api/v2/')
+  const res = await fetch('https://nextjs-middleware-exporation.vercel.app/api/pokemon')
   const pokemon = await res.json()
 
   return { props: { pokemon } }
